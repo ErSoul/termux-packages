@@ -1,0 +1,16 @@
+--- libnsl/src/yp_get_default_domain.c	2024-06-05 12:27:55.575886704 +0800
++++ libnsl.mod/src/yp_get_default_domain.c	2024-06-05 12:27:07.139886722 +0800
+@@ -39,9 +39,11 @@
+ 
+   if (ypdomainname[0] == '\0')
+     {
++      #ifndef __ANDROID__
+       if (getdomainname (ypdomainname, NIS_MAXNAMELEN))
+         result = YPERR_NODOM;
+-      else if (strcmp (ypdomainname, "(none)") == 0)
++      #endif
++      if (strcmp (ypdomainname, "(none)") == 0)
+         {
+           /* If domainname is not set, some systems will return "(none)" */
+           ypdomainname[0] = '\0';
+
